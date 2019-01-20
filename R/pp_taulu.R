@@ -4,6 +4,10 @@
 #' output: github_document
 #' ---
 
+#+ setup, include=FALSE
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+
+#+ toinen chunkki
 library(gt)
 library(tidyverse)
 library(here)
@@ -88,4 +92,4 @@ gt_pp <- gt_data %>%
 
 gt_pp
 
-fs::file_copy(here("R", "pp_taulu.md"), here("readme.MD"))
+# fs::file_copy(here("R", "pp_taulu.md"), here("readme.MD"))

@@ -1,43 +1,19 @@
 Trying out the `gt` package
 ================
 Pasi Haapakorva
-Sun Jan 20 20:34:13 2019
+Sun Jan 20 21:09:56 2019
 
 ``` r
 library(gt)
 library(tidyverse)
-```
-
-    ## -- Attaching packages ------------------------------------------------------------------------------------------------ tidyverse 1.2.1 --
-
-    ## v ggplot2 3.1.0.9000     v purrr   0.2.5     
-    ## v tibble  2.0.1          v dplyr   0.8.0     
-    ## v tidyr   0.8.2          v stringr 1.3.1     
-    ## v readr   1.3.1          v forcats 0.3.0
-
-    ## -- Conflicts --------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-``` r
 library(here)
-```
 
-    ## here() starts at C:/Users/pasih_000/Documents/rprojektit/gt_testi
-
-``` r
 # Here I'm loading data acquired from the City of Oulu about the number of cyclist passing an ecocounter
 
 hep <- fs::dir_ls(here("data")) %>%
    str_subset("ID_(89|96)") %>%
    map(~ read_csv2(., col_types = "ccdcccdddddd", locale = locale(encoding = "ISO-8859-1")) %>% as_tibble())
-```
 
-    ## Using ',' as decimal and '.' as grouping mark. Use read_delim() for more control.
-
-    ## Using ',' as decimal and '.' as grouping mark. Use read_delim() for more control.
-
-``` r
 hep2 <- hep %>%
    bind_rows() %>%
    rename_all(tolower) %>%
@@ -53,7 +29,7 @@ hep2 %>%
    geom_line()
 ```
 
-![](pp_taulu_files/figure-markdown_github/unnamed-chunk-1-1.png)
+![](pp_taulu_files/figure-markdown_github/toinen%20chunkki-1.png)
 
 ``` r
 # There seems to be some problems with the data. Some periods have less
@@ -73,7 +49,7 @@ hep2 %>%
    geom_line()
 ```
 
-![](pp_taulu_files/figure-markdown_github/unnamed-chunk-1-2.png)
+![](pp_taulu_files/figure-markdown_github/toinen%20chunkki-2.png)
 
 ``` r
 # I want to compare later years to mean of the first three years.
@@ -96,11 +72,7 @@ pp_9_mean <- hep2 %>%
 
 pp_means <- pp_all_mean %>%
    left_join(pp_9_mean)
-```
 
-    ## Joining, by = "mittausid"
-
-``` r
 gt_data <- hep2 %>%
    group_by(mittausid, vuosi) %>%
    summarise(pp_all = sum(pp)) %>%
@@ -110,11 +82,7 @@ gt_data <- hep2 %>%
    ungroup() %>%
    mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
                                 TRUE ~ "Ouluhalli"))
-```
 
-    ## Joining, by = "mittausid"
-
-``` r
 # Building the `gt` table
 
 gt_pp <- gt_data %>%
@@ -134,7 +102,7 @@ gt_pp
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#oywzymclsi .gt_table {
+#yazbiuanlg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -153,13 +121,13 @@ gt_pp
   /* table.border.top.color */
 }
 
-#oywzymclsi .gt_heading {
+#yazbiuanlg .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#oywzymclsi .gt_title {
+#yazbiuanlg .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -170,7 +138,7 @@ gt_pp
   border-bottom-width: 0;
 }
 
-#oywzymclsi .gt_subtitle {
+#yazbiuanlg .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -181,7 +149,7 @@ gt_pp
   border-top-width: 0;
 }
 
-#oywzymclsi .gt_bottom_border {
+#yazbiuanlg .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -190,7 +158,7 @@ gt_pp
   /* heading.border.bottom.color */
 }
 
-#oywzymclsi .gt_column_spanner {
+#yazbiuanlg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -198,7 +166,7 @@ gt_pp
   padding-bottom: 4px;
 }
 
-#oywzymclsi .gt_col_heading {
+#yazbiuanlg .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -211,11 +179,11 @@ gt_pp
   margin: 10px;
 }
 
-#oywzymclsi .gt_sep_right {
+#yazbiuanlg .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#oywzymclsi .gt_group_heading {
+#yazbiuanlg .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -239,7 +207,7 @@ gt_pp
   vertical-align: middle;
 }
 
-#oywzymclsi .gt_empty_group_heading {
+#yazbiuanlg .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -263,29 +231,29 @@ gt_pp
   vertical-align: middle;
 }
 
-#oywzymclsi .gt_striped {
+#yazbiuanlg .gt_striped {
   background-color: #f2f2f2;
 }
 
-#oywzymclsi .gt_row {
+#yazbiuanlg .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#oywzymclsi .gt_stub {
+#yazbiuanlg .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#oywzymclsi .gt_stub.gt_row {
+#yazbiuanlg .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#oywzymclsi .gt_summary_row {
+#yazbiuanlg .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -294,13 +262,13 @@ gt_pp
   /* summary_row.text_transform */
 }
 
-#oywzymclsi .gt_first_summary_row {
+#yazbiuanlg .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#oywzymclsi .gt_table_body {
+#yazbiuanlg .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -315,50 +283,50 @@ gt_pp
   /* field.border.bottom.color */
 }
 
-#oywzymclsi .gt_footnote {
+#yazbiuanlg .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#oywzymclsi .gt_sourcenote {
+#yazbiuanlg .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#oywzymclsi .gt_center {
+#yazbiuanlg .gt_center {
   text-align: center;
 }
 
-#oywzymclsi .gt_left {
+#yazbiuanlg .gt_left {
   text-align: left;
 }
 
-#oywzymclsi .gt_right {
+#yazbiuanlg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#oywzymclsi .gt_font_normal {
+#yazbiuanlg .gt_font_normal {
   font-weight: normal;
 }
 
-#oywzymclsi .gt_font_bold {
+#yazbiuanlg .gt_font_bold {
   font-weight: bold;
 }
 
-#oywzymclsi .gt_font_italic {
+#yazbiuanlg .gt_font_italic {
   font-style: italic;
 }
 
-#oywzymclsi .gt_super {
+#yazbiuanlg .gt_super {
   font-size: 65%;
 }
 
-#oywzymclsi .gt_footnote_glyph {
+#yazbiuanlg .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
@@ -567,3 +535,6 @@ Ouluhalli
 <!--gt table end-->
 
 <!--/html_preserve-->
+``` r
+# fs::file_copy(here("R", "pp_taulu.md"), here("readme.MD"))
+```
