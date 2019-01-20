@@ -17,9 +17,9 @@ hep2 <- hep %>%
    bind_rows() %>%
    group_by(MittausID, Vuosi, Kuukausi) %>%
    summarise(pp = sum(PP_YHT)) %>%
+   ungroup() %>%
    rename_all(tolower) %>%
    mutate(kuukausi = as.numeric(kuukausi)) %>%
-   ungroup() %>%
    complete(mittausid, vuosi, kuukausi, fill = list(pp = 0)) %>%
    filter(!(vuosi == 2018 & kuukausi > 9))
 
