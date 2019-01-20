@@ -59,7 +59,6 @@ gt_data <- hep2 %>%
    ungroup()
 
 gt_data %>%
-   # mutate(mittausid = as.factor(mittausid)) %>%
    mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
                                 TRUE ~ "Ouluhalli")) %>%
    gt(rowname_col = "vuosi", groupname_col = "mittausid") %>%
@@ -67,6 +66,3 @@ gt_data %>%
    cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    fmt_percent(columns = vars(osuus), sep_mark = " ", dec_mark = ",", decimals = 1, incl_space = TRUE) %>%
    fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0)
-   # data_color(columns = vars(osuus), colors = scales::col_numeric(palette = "Reds", domain = NULL))
-
-

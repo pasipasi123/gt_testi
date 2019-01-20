@@ -1,7 +1,7 @@
 Trying out the `gt` package
 ================
 Pasi Haapakorva
-Sun Jan 20 15:50:43 2019
+Sun Jan 20 15:58:57 2019
 
 ``` r
 library(gt)
@@ -90,7 +90,6 @@ gt_data <- hep2 %>%
 
 ``` r
 gt_data %>%
-   # mutate(mittausid = as.factor(mittausid)) %>%
    mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
                                 TRUE ~ "Ouluhalli")) %>%
    gt(rowname_col = "vuosi", groupname_col = "mittausid") %>%
@@ -105,7 +104,7 @@ gt_data %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#uevjdssxtk .gt_table {
+#ggllgiqvfk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -124,13 +123,13 @@ gt_data %>%
   /* table.border.top.color */
 }
 
-#uevjdssxtk .gt_heading {
+#ggllgiqvfk .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#uevjdssxtk .gt_title {
+#ggllgiqvfk .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -141,7 +140,7 @@ gt_data %>%
   border-bottom-width: 0;
 }
 
-#uevjdssxtk .gt_subtitle {
+#ggllgiqvfk .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -152,7 +151,7 @@ gt_data %>%
   border-top-width: 0;
 }
 
-#uevjdssxtk .gt_bottom_border {
+#ggllgiqvfk .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -161,7 +160,7 @@ gt_data %>%
   /* heading.border.bottom.color */
 }
 
-#uevjdssxtk .gt_column_spanner {
+#ggllgiqvfk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -169,7 +168,7 @@ gt_data %>%
   padding-bottom: 4px;
 }
 
-#uevjdssxtk .gt_col_heading {
+#ggllgiqvfk .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -182,11 +181,11 @@ gt_data %>%
   margin: 10px;
 }
 
-#uevjdssxtk .gt_sep_right {
+#ggllgiqvfk .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#uevjdssxtk .gt_group_heading {
+#ggllgiqvfk .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -210,7 +209,7 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#uevjdssxtk .gt_empty_group_heading {
+#ggllgiqvfk .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -234,29 +233,29 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#uevjdssxtk .gt_striped {
+#ggllgiqvfk .gt_striped {
   background-color: #f2f2f2;
 }
 
-#uevjdssxtk .gt_row {
+#ggllgiqvfk .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#uevjdssxtk .gt_stub {
+#ggllgiqvfk .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#uevjdssxtk .gt_stub.gt_row {
+#ggllgiqvfk .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#uevjdssxtk .gt_summary_row {
+#ggllgiqvfk .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -265,13 +264,13 @@ gt_data %>%
   /* summary_row.text_transform */
 }
 
-#uevjdssxtk .gt_first_summary_row {
+#ggllgiqvfk .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#uevjdssxtk .gt_table_body {
+#ggllgiqvfk .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -286,50 +285,50 @@ gt_data %>%
   /* field.border.bottom.color */
 }
 
-#uevjdssxtk .gt_footnote {
+#ggllgiqvfk .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#uevjdssxtk .gt_sourcenote {
+#ggllgiqvfk .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#uevjdssxtk .gt_center {
+#ggllgiqvfk .gt_center {
   text-align: center;
 }
 
-#uevjdssxtk .gt_left {
+#ggllgiqvfk .gt_left {
   text-align: left;
 }
 
-#uevjdssxtk .gt_right {
+#ggllgiqvfk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uevjdssxtk .gt_font_normal {
+#ggllgiqvfk .gt_font_normal {
   font-weight: normal;
 }
 
-#uevjdssxtk .gt_font_bold {
+#ggllgiqvfk .gt_font_bold {
   font-weight: bold;
 }
 
-#uevjdssxtk .gt_font_italic {
+#ggllgiqvfk .gt_font_italic {
   font-style: italic;
 }
 
-#uevjdssxtk .gt_super {
+#ggllgiqvfk .gt_super {
   font-size: 65%;
 }
 
-#uevjdssxtk .gt_footnote_glyph {
+#ggllgiqvfk .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
@@ -538,6 +537,3 @@ Ouluhalli
 <!--gt table end-->
 
 <!--/html_preserve-->
-``` r
-   # data_color(columns = vars(osuus), colors = scales::col_numeric(palette = "Reds", domain = NULL))
-```
