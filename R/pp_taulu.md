@@ -1,7 +1,7 @@
 Trying out the `gt` package
 ================
 Pasi Haapakorva
-Sun Jan 20 15:58:57 2019
+Sun Jan 20 20:34:13 2019
 
 ``` r
 library(gt)
@@ -26,9 +26,11 @@ library(here)
     ## here() starts at C:/Users/pasih_000/Documents/rprojektit/gt_testi
 
 ``` r
+# Here I'm loading data acquired from the City of Oulu about the number of cyclist passing an ecocounter
+
 hep <- fs::dir_ls(here("data")) %>%
    str_subset("ID_(89|96)") %>%
-   map(~ read_csv2(., col_types = "ccdcccdddddd") %>% as_tibble())
+   map(~ read_csv2(., col_types = "ccdcccdddddd", locale = locale(encoding = "ISO-8859-1")) %>% as_tibble())
 ```
 
     ## Using ',' as decimal and '.' as grouping mark. Use read_delim() for more control.
@@ -38,13 +40,24 @@ hep <- fs::dir_ls(here("data")) %>%
 ``` r
 hep2 <- hep %>%
    bind_rows() %>%
-   group_by(MittausID, Vuosi, Kuukausi) %>%
-   summarise(pp = sum(PP_YHT)) %>%
-   ungroup() %>%
    rename_all(tolower) %>%
    mutate(kuukausi = as.numeric(kuukausi)) %>%
+   group_by(mittausid, vuosi, kuukausi) %>%
+   summarise(pp = sum(pp_yht)) %>%
+   ungroup() %>%
    complete(mittausid, vuosi, kuukausi, fill = list(pp = 0)) %>%
    filter(!(vuosi == 2018 & kuukausi > 9))
+
+hep2 %>%
+   ggplot(aes(lubridate::make_date(vuosi, kuukausi), pp, color = mittausid)) +
+   geom_line()
+```
+
+![](pp_taulu_files/figure-markdown_github/unnamed-chunk-1-1.png)
+
+``` r
+# There seems to be some problems with the data. Some periods have less
+# observations. Let's replace them with previous years' values.
 
 hep2[c(hep2$kuukausi %in% 8:11 & hep2$mittausid == 96 & hep2$vuosi == 2012), 4] <-
    hep2[c(hep2$kuukausi %in% 8:11 & hep2$mittausid == 96 & hep2$vuosi == 2011), 4]
@@ -54,6 +67,17 @@ hep2[c(hep2$kuukausi %in% 4:6 & hep2$mittausid == 96 & hep2$vuosi == 2013), 4] <
 
 hep2[c(hep2$kuukausi %in% 10:12 & hep2$mittausid == 96 & hep2$vuosi == 2014), 4] <-
    hep2[c(hep2$kuukausi %in% 10:12 & hep2$mittausid == 96 & hep2$vuosi == 2013), 4]
+
+hep2 %>%
+   ggplot(aes(lubridate::make_date(vuosi, kuukausi), pp, color = mittausid)) +
+   geom_line()
+```
+
+![](pp_taulu_files/figure-markdown_github/unnamed-chunk-1-2.png)
+
+``` r
+# I want to compare later years to mean of the first three years.
+# Year 2018 is incomplete, so I'll calculate another mean for it.
 
 pp_all_mean <- hep2 %>%
    group_by(mittausid, vuosi) %>%
@@ -83,20 +107,26 @@ gt_data <- hep2 %>%
    left_join(pp_means) %>%
    mutate(osuus = case_when(vuosi == 2018 ~ pp_all / pp_9_mean - 1,
                             TRUE ~ pp_all / pp_all_mean - 1)) %>%
-   ungroup()
+   ungroup() %>%
+   mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
+                                TRUE ~ "Ouluhalli"))
 ```
 
     ## Joining, by = "mittausid"
 
 ``` r
-gt_data %>%
-   mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
-                                TRUE ~ "Ouluhalli")) %>%
+# Building the `gt` table
+
+gt_pp <- gt_data %>%
    gt(rowname_col = "vuosi", groupname_col = "mittausid") %>%
    cols_hide(vars(pp_all_mean, pp_9_mean)) %>%
    cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    fmt_percent(columns = vars(osuus), sep_mark = " ", dec_mark = ",", decimals = 1, incl_space = TRUE) %>%
    fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0)
+
+# It looks like some of the formatting is lost in this markdown file, eg. alignment.
+
+gt_pp
 ```
 
 <!--html_preserve-->
@@ -104,7 +134,7 @@ gt_data %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#ggllgiqvfk .gt_table {
+#oywzymclsi .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -123,13 +153,13 @@ gt_data %>%
   /* table.border.top.color */
 }
 
-#ggllgiqvfk .gt_heading {
+#oywzymclsi .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#ggllgiqvfk .gt_title {
+#oywzymclsi .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -140,7 +170,7 @@ gt_data %>%
   border-bottom-width: 0;
 }
 
-#ggllgiqvfk .gt_subtitle {
+#oywzymclsi .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -151,7 +181,7 @@ gt_data %>%
   border-top-width: 0;
 }
 
-#ggllgiqvfk .gt_bottom_border {
+#oywzymclsi .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -160,7 +190,7 @@ gt_data %>%
   /* heading.border.bottom.color */
 }
 
-#ggllgiqvfk .gt_column_spanner {
+#oywzymclsi .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -168,7 +198,7 @@ gt_data %>%
   padding-bottom: 4px;
 }
 
-#ggllgiqvfk .gt_col_heading {
+#oywzymclsi .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -181,11 +211,11 @@ gt_data %>%
   margin: 10px;
 }
 
-#ggllgiqvfk .gt_sep_right {
+#oywzymclsi .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#ggllgiqvfk .gt_group_heading {
+#oywzymclsi .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -209,7 +239,7 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#ggllgiqvfk .gt_empty_group_heading {
+#oywzymclsi .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -233,29 +263,29 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#ggllgiqvfk .gt_striped {
+#oywzymclsi .gt_striped {
   background-color: #f2f2f2;
 }
 
-#ggllgiqvfk .gt_row {
+#oywzymclsi .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#ggllgiqvfk .gt_stub {
+#oywzymclsi .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#ggllgiqvfk .gt_stub.gt_row {
+#oywzymclsi .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#ggllgiqvfk .gt_summary_row {
+#oywzymclsi .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -264,13 +294,13 @@ gt_data %>%
   /* summary_row.text_transform */
 }
 
-#ggllgiqvfk .gt_first_summary_row {
+#oywzymclsi .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#ggllgiqvfk .gt_table_body {
+#oywzymclsi .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -285,50 +315,50 @@ gt_data %>%
   /* field.border.bottom.color */
 }
 
-#ggllgiqvfk .gt_footnote {
+#oywzymclsi .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#ggllgiqvfk .gt_sourcenote {
+#oywzymclsi .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#ggllgiqvfk .gt_center {
+#oywzymclsi .gt_center {
   text-align: center;
 }
 
-#ggllgiqvfk .gt_left {
+#oywzymclsi .gt_left {
   text-align: left;
 }
 
-#ggllgiqvfk .gt_right {
+#oywzymclsi .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ggllgiqvfk .gt_font_normal {
+#oywzymclsi .gt_font_normal {
   font-weight: normal;
 }
 
-#ggllgiqvfk .gt_font_bold {
+#oywzymclsi .gt_font_bold {
   font-weight: bold;
 }
 
-#ggllgiqvfk .gt_font_italic {
+#oywzymclsi .gt_font_italic {
   font-style: italic;
 }
 
-#ggllgiqvfk .gt_super {
+#oywzymclsi .gt_super {
   font-size: 65%;
 }
 
-#ggllgiqvfk .gt_footnote_glyph {
+#oywzymclsi .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
