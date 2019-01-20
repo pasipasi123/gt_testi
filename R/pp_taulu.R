@@ -1,3 +1,10 @@
+#' ---
+#' title: Trying out the `gt` package
+#' author: Pasi Haapakorva
+#' output: github_document
+#' ---
+
+
 library(gt)
 library(tidyverse)
 library(here)
