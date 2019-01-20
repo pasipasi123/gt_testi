@@ -87,3 +87,5 @@ gt_pp <- gt_data %>%
 # It looks like some of the formatting is lost in this markdown file, eg. alignment.
 
 gt_pp
+
+fs::file_copy(here("R", "pp_taulu.md"), here("readme.MD"))
