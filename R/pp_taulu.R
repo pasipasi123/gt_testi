@@ -63,10 +63,10 @@ gt_data %>%
    mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
                                 TRUE ~ "Ouluhalli")) %>%
    gt(rowname_col = "vuosi", groupname_col = "mittausid") %>%
-   cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    cols_hide(vars(pp_all_mean, pp_9_mean)) %>%
+   cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    fmt_percent(columns = vars(osuus), sep_mark = " ", dec_mark = ",", decimals = 1, incl_space = TRUE) %>%
-   fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0) #%>%
+   fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0)
    # data_color(columns = vars(osuus), colors = scales::col_numeric(palette = "Reds", domain = NULL))
 
 

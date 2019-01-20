@@ -1,21 +1,21 @@
 Trying out the `gt` package
 ================
 Pasi Haapakorva
-Sun Jan 20 15:38:57 2019
+Sun Jan 20 15:50:43 2019
 
 ``` r
 library(gt)
 library(tidyverse)
 ```
 
-    ## -- Attaching packages ------------------------------------------------------------------------------------------------------------------ tidyverse 1.2.1 --
+    ## -- Attaching packages ------------------------------------------------------------------------------------------------ tidyverse 1.2.1 --
 
     ## v ggplot2 3.1.0.9000     v purrr   0.2.5     
     ## v tibble  2.0.1          v dplyr   0.8.0     
     ## v tidyr   0.8.2          v stringr 1.3.1     
     ## v readr   1.3.1          v forcats 0.3.0
 
-    ## -- Conflicts --------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+    ## -- Conflicts --------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
@@ -40,9 +40,9 @@ hep2 <- hep %>%
    bind_rows() %>%
    group_by(MittausID, Vuosi, Kuukausi) %>%
    summarise(pp = sum(PP_YHT)) %>%
+   ungroup() %>%
    rename_all(tolower) %>%
    mutate(kuukausi = as.numeric(kuukausi)) %>%
-   ungroup() %>%
    complete(mittausid, vuosi, kuukausi, fill = list(pp = 0)) %>%
    filter(!(vuosi == 2018 & kuukausi > 9))
 
@@ -94,10 +94,10 @@ gt_data %>%
    mutate(mittausid = case_when(mittausid == "89" ~ "Hupisaaret",
                                 TRUE ~ "Ouluhalli")) %>%
    gt(rowname_col = "vuosi", groupname_col = "mittausid") %>%
-   cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    cols_hide(vars(pp_all_mean, pp_9_mean)) %>%
+   cols_label(pp_all = "Pyöräliikenne, lkm", osuus = "Vertailuluku") %>%
    fmt_percent(columns = vars(osuus), sep_mark = " ", dec_mark = ",", decimals = 1, incl_space = TRUE) %>%
-   fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0) #%>%
+   fmt_number(columns = vars(pp_all), sep_mark = " ", dec_mark = ",", decimals = 0)
 ```
 
 <!--html_preserve-->
@@ -105,7 +105,7 @@ gt_data %>%
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#fgxpghxodn .gt_table {
+#uevjdssxtk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -124,13 +124,13 @@ gt_data %>%
   /* table.border.top.color */
 }
 
-#fgxpghxodn .gt_heading {
+#uevjdssxtk .gt_heading {
   background-color: #FFFFFF;
   /* heading.background.color */
   border-bottom-color: #FFFFFF;
 }
 
-#fgxpghxodn .gt_title {
+#uevjdssxtk .gt_title {
   color: #000000;
   font-size: 125%;
   /* heading.title.font.size */
@@ -141,7 +141,7 @@ gt_data %>%
   border-bottom-width: 0;
 }
 
-#fgxpghxodn .gt_subtitle {
+#uevjdssxtk .gt_subtitle {
   color: #000000;
   font-size: 85%;
   /* heading.subtitle.font.size */
@@ -152,7 +152,7 @@ gt_data %>%
   border-top-width: 0;
 }
 
-#fgxpghxodn .gt_bottom_border {
+#uevjdssxtk .gt_bottom_border {
   border-bottom-style: solid;
   /* heading.border.bottom.style */
   border-bottom-width: 2px;
@@ -161,7 +161,7 @@ gt_data %>%
   /* heading.border.bottom.color */
 }
 
-#fgxpghxodn .gt_column_spanner {
+#uevjdssxtk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #A8A8A8;
@@ -169,7 +169,7 @@ gt_data %>%
   padding-bottom: 4px;
 }
 
-#fgxpghxodn .gt_col_heading {
+#uevjdssxtk .gt_col_heading {
   color: #000000;
   background-color: #FFFFFF;
   /* column_labels.background.color */
@@ -182,11 +182,11 @@ gt_data %>%
   margin: 10px;
 }
 
-#fgxpghxodn .gt_sep_right {
+#uevjdssxtk .gt_sep_right {
   border-right: 5px solid #FFFFFF;
 }
 
-#fgxpghxodn .gt_group_heading {
+#uevjdssxtk .gt_group_heading {
   padding: 8px;
   color: #000000;
   background-color: #FFFFFF;
@@ -210,7 +210,7 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#fgxpghxodn .gt_empty_group_heading {
+#uevjdssxtk .gt_empty_group_heading {
   padding: 0.5px;
   color: #000000;
   background-color: #FFFFFF;
@@ -234,29 +234,29 @@ gt_data %>%
   vertical-align: middle;
 }
 
-#fgxpghxodn .gt_striped {
+#uevjdssxtk .gt_striped {
   background-color: #f2f2f2;
 }
 
-#fgxpghxodn .gt_row {
+#uevjdssxtk .gt_row {
   padding: 10px;
   /* row.padding */
   margin: 10px;
   vertical-align: middle;
 }
 
-#fgxpghxodn .gt_stub {
+#uevjdssxtk .gt_stub {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #A8A8A8;
   padding-left: 12px;
 }
 
-#fgxpghxodn .gt_stub.gt_row {
+#uevjdssxtk .gt_stub.gt_row {
   background-color: #FFFFFF;
 }
 
-#fgxpghxodn .gt_summary_row {
+#uevjdssxtk .gt_summary_row {
   background-color: #FFFFFF;
   /* summary_row.background.color */
   padding: 6px;
@@ -265,13 +265,13 @@ gt_data %>%
   /* summary_row.text_transform */
 }
 
-#fgxpghxodn .gt_first_summary_row {
+#uevjdssxtk .gt_first_summary_row {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
 }
 
-#fgxpghxodn .gt_table_body {
+#uevjdssxtk .gt_table_body {
   border-top-style: solid;
   /* field.border.top.style */
   border-top-width: 2px;
@@ -286,50 +286,50 @@ gt_data %>%
   /* field.border.bottom.color */
 }
 
-#fgxpghxodn .gt_footnote {
+#uevjdssxtk .gt_footnote {
   font-size: 90%;
   /* footnote.font.size */
   padding: 4px;
   /* footnote.padding */
 }
 
-#fgxpghxodn .gt_sourcenote {
+#uevjdssxtk .gt_sourcenote {
   font-size: 90%;
   /* sourcenote.font.size */
   padding: 4px;
   /* sourcenote.padding */
 }
 
-#fgxpghxodn .gt_center {
+#uevjdssxtk .gt_center {
   text-align: center;
 }
 
-#fgxpghxodn .gt_left {
+#uevjdssxtk .gt_left {
   text-align: left;
 }
 
-#fgxpghxodn .gt_right {
+#uevjdssxtk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#fgxpghxodn .gt_font_normal {
+#uevjdssxtk .gt_font_normal {
   font-weight: normal;
 }
 
-#fgxpghxodn .gt_font_bold {
+#uevjdssxtk .gt_font_bold {
   font-weight: bold;
 }
 
-#fgxpghxodn .gt_font_italic {
+#uevjdssxtk .gt_font_italic {
   font-style: italic;
 }
 
-#fgxpghxodn .gt_super {
+#uevjdssxtk .gt_super {
   font-size: 65%;
 }
 
-#fgxpghxodn .gt_footnote_glyph {
+#uevjdssxtk .gt_footnote_glyph {
   font-style: italic;
   font-size: 65%;
 }
