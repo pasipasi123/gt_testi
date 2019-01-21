@@ -4,10 +4,10 @@ library(gt)
 library(tidyverse)
 
 gt_fun <- function(data, group_col, row_col) {
-   group_col <- enquo(group_col)
-   row_col <- enquo(row_col)
+   # group_col <- enquo(group_col)
+   # row_col <- enquo(row_col)
 
-   gt(data, groupname_col = vars(!!group_col), rowname_col = vars(!!row_col))
+   gt(data, groupname_col = group_col, rowname_col = row_col)
 }
 
 gt_sample <- gtcars %>%
@@ -16,7 +16,7 @@ gt_sample <- gtcars %>%
    sample_n(5) %>%
    ungroup()
 
-gt_fun(gt_sample, ctry_origin, model)
+gt_fun(gt_sample, "ctry_origin", "model")
 
 gt(gt_sample, vars(ctry_origin), vars(mfr))
 
